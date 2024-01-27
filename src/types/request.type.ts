@@ -11,7 +11,7 @@ export class PagingRequest {
 
 export class CursorRequest {
   constructor(
-    public readonly cursor: string,
-    public readonly size: number
+    public readonly size: number,
+    public readonly cursor?: string
   ) {}
 }

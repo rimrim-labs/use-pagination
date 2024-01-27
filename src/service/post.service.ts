@@ -20,7 +20,9 @@ export function findPostsByOffset(paging: PagingRequest): Promise<Post[]> {
 }
 
 export async function findPostsByCursor(paging: CursorRequest): Promise<CursorResponse<Post>> {
-  const posts = await PostModel.find({ _id: { $lte: paging.cursor } })
+  const query = paging.cursor ? { _id: { $lte: paging.cursor } } : {}
+
+  const posts = await PostModel.find(query)
     .limit(+paging.size + 1)
     .sort({ createdAt: 'desc', title: 'asc' })
     .exec()

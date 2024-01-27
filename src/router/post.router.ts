@@ -11,7 +11,6 @@ const PostRouter = Router()
 PostRouter.post('/', async (req: Request<object, object, Post>, res: Response, next) => {
   try {
     const post = req.body
-    console.log(post)
     const postId = await createPost(post)
     return res.json(postId.toJSON())
   } catch (err) {
@@ -52,7 +51,7 @@ PostRouter.get(
       object,
       object,
       {
-        cursor: string
+        cursor?: string
         size: number
       }
     >,
@@ -61,7 +60,7 @@ PostRouter.get(
   ) => {
     try {
       const { cursor, size } = req.query
-      const posts = await findPostsByCursor(new CursorRequest(cursor, size))
+      const posts = await findPostsByCursor(new CursorRequest(size, cursor))
       return res.json(posts)
     } catch (err) {
       next(err)
