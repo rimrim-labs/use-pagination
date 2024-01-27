@@ -1,6 +1,8 @@
 import express from 'express'
 import createError from 'http-errors'
 
+import PostRouter from './router/post.router'
+
 import type { Request, Response, NextFunction } from 'express'
 import type { HttpError } from 'http-errors'
 
@@ -8,6 +10,8 @@ const app = express()
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
+
+app.use('/posts', PostRouter)
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
