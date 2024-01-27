@@ -1,7 +1,8 @@
 import { Post } from '../types/post.type'
 import PostModel from '../db/schema/post.schema'
+import { CursorRequest, PagingRequest } from '../types/request.type'
+
 import type { Types } from 'mongoose'
-import { PagingRequest } from '../types/request.type'
 
 export async function createPost(post: Post) {
   const create = new PostModel({ ...post })
@@ -13,6 +14,13 @@ export function findPostsByOffset(paging: PagingRequest): Promise<Post[]> {
   return PostModel.find()
     .limit(paging.size)
     .skip(paging.getSkip())
+    .sort({ createdAt: 'desc', title: 'asc' })
+    .exec()
+}
+
+export function findPostsByCursor(paging: CursorRequest): Promise<Post[]> {
+  return PostModel.find({ _id: { $lte: paging.cursor } })
+    .limit(paging.size)
     .sort({ createdAt: 'desc', title: 'asc' })
     .exec()
 }

@@ -1,6 +1,6 @@
 import { Router } from 'express'
-import { PagingRequest } from '../types/request.type'
-import { createPost, findPostsByOffset } from '../service/post.service'
+import { CursorRequest, PagingRequest } from '../types/request.type'
+import { createPost, findPostsByCursor, findPostsByOffset } from '../service/post.service'
 
 import type { Request, Response } from 'express'
 import type { Post } from '../types/post.type'
@@ -36,6 +36,31 @@ PostRouter.get(
     try {
       const { page, size } = req.query
       const posts = await findPostsByOffset(new PagingRequest(page, size))
+      return res.json(posts)
+    } catch (err) {
+      next(err)
+    }
+  }
+)
+
+PostRouter.get(
+  '/cursor',
+  async (
+    req: Request<
+      object,
+      object,
+      object,
+      {
+        cursor: string
+        size: number
+      }
+    >,
+    res: Response<Post[]>,
+    next
+  ) => {
+    try {
+      const { cursor, size } = req.query
+      const posts = await findPostsByCursor(new CursorRequest(cursor, size))
       return res.json(posts)
     } catch (err) {
       next(err)
