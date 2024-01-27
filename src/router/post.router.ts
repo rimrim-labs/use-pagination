@@ -2,6 +2,7 @@ import { Router } from 'express'
 import { CursorRequest, PagingRequest } from '../types/request.type'
 import { createPost, findPostsByCursor, findPostsByOffset } from '../service/post.service'
 
+import type { CursorResponse } from '../types/response.type'
 import type { Request, Response } from 'express'
 import type { Post } from '../types/post.type'
 
@@ -55,7 +56,7 @@ PostRouter.get(
         size: number
       }
     >,
-    res: Response<Post[]>,
+    res: Response<CursorResponse<Post>>,
     next
   ) => {
     try {

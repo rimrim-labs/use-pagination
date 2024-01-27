@@ -17,7 +17,8 @@ describe('커서 기반 페이지네이션 테스트', () => {
       .expect(200)
 
     /* then */
-    expect(res.body.length).toEqual(size)
-    expect(res.body[0]._id).toEqual(cursor)
+    expect(res.body.data.length).toEqual(size)
+    expect(res.body.data[0]._id).toEqual(cursor)
+    expect(res.body.next).not.toBeUndefined()
   })
 })
