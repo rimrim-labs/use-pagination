@@ -1,11 +1,22 @@
 import { Router } from 'express'
 import { PagingRequest } from '../types/request.type'
-import { findPostsByOffset } from '../service/post.service'
+import { createPost, findPostsByOffset } from '../service/post.service'
 
 import type { Request, Response } from 'express'
-import { Post } from '../types/post.type'
+import type { Post } from '../types/post.type'
 
 const PostRouter = Router()
+
+PostRouter.post('/', async (req: Request<object, object, Post>, res: Response, next) => {
+  try {
+    const post = req.body
+    console.log(post)
+    const postId = await createPost(post)
+    return res.json(postId.toJSON())
+  } catch (err) {
+    next(err)
+  }
+})
 
 PostRouter.get(
   '/offset',
