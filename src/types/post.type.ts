@@ -1,8 +1,4 @@
-export enum PostCategory {
-  'it',
-  'food',
-  'workout',
-}
+export type PostCategory = 'it' | 'food' | 'workout'
 
 export interface Post {
   author: string

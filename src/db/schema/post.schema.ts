@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import { Post, PostCategory } from '../../types/post.type'
+import { Post } from '../../types/post.type'
 
 const postSchema = new mongoose.Schema<Post>(
   {
@@ -7,8 +7,8 @@ const postSchema = new mongoose.Schema<Post>(
     content: String,
     author: String,
     category: {
-      type: Number,
-      enum: Object.values(PostCategory),
+      type: String,
+      enum: ['it', 'food', 'workout'],
     },
   },
   {
