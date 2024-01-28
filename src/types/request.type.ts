@@ -15,3 +15,11 @@ export class CursorRequest {
     public readonly cursor?: string
   ) {}
 }
+
+export type DateRequest = {
+  date: Date
+}
+
+export type DateStrRequest = {
+  dateStr: string
+}
