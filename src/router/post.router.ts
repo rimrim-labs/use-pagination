@@ -6,7 +6,7 @@ import type { CursorResponse } from '../types/response.type'
 import type { Request, Response } from 'express'
 import type { Post } from '../types/post.type'
 import { validate } from '../validation'
-import { PagingValidationSchema } from '../validation/post.validation'
+import { DateStrValidationSchema, PagingValidationSchema } from '../validation/post.validation'
 
 const PostRouter = Router()
 
@@ -20,13 +20,17 @@ PostRouter.post('/', async (req: Request<object, object, Post>, res: Response, n
   }
 })
 
-PostRouter.get('/validate', validate(PagingValidationSchema), async (req, res: Response, next) => {
-  try {
-    return res.json('validate success')
-  } catch (err) {
-    next(err)
+PostRouter.get(
+  '/validate',
+  validate(PagingValidationSchema, DateStrValidationSchema),
+  async (req, res: Response, next) => {
+    try {
+      return res.json('validate success')
+    } catch (err) {
+      next(err)
+    }
   }
-})
+)
 
 PostRouter.get(
   '/offset',

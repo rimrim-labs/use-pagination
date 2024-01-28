@@ -1,6 +1,7 @@
 import { date, number, object, ObjectSchema, string } from 'yup'
 import { DateRequest, DateStrRequest, PagingRequest } from '../types/request.type'
 import { isMatch } from 'date-fns'
+import { ValidationRequest } from './index'
 
 type PagingQuery = Pick<PagingRequest, 'size' | 'page'>
 
@@ -9,9 +10,9 @@ export const pagingQuerySchema: ObjectSchema<PagingQuery> = object({
   size: number().required().positive().integer(),
 })
 
-export const PagingValidationSchema = object({
+export const PagingValidationSchema: ValidationRequest = {
   query: pagingQuerySchema,
-})
+}
 
 export const dateQuerySchema: ObjectSchema<DateRequest> = object({
   date: date()
@@ -27,3 +28,7 @@ export const dateStrQuerySchema: ObjectSchema<DateStrRequest> = object({
       return isMatch(value, 'yyyy-mm-dd')
     }),
 })
+
+export const DateStrValidationSchema: ValidationRequest = {
+  query: dateStrQuerySchema,
+}
