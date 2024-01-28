@@ -26,7 +26,7 @@ app.use(function (err: HttpError, req: Request, res: Response, next: NextFunctio
 
   // render the error page
   res.status(err.status || 500)
-  res.json('error')
+  res.json(err.message)
 })
 
 export default app

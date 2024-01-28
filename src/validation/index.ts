@@ -1,15 +1,9 @@
 import type { Request, Response, NextFunction } from 'express'
-import { ObjectSchema } from 'yup'
-
-export interface ValidationSchema {
-  body?: ObjectSchema<object>
-  query?: ObjectSchema<object>
-  params?: ObjectSchema<object>
-}
+import { ObjectSchema, ValidationError } from 'yup'
+import createError from 'http-errors'
 
 export const validate =
-  (schema: ObjectSchema<ValidationSchema>) =>
-  async (req: Request, res: Response, next: NextFunction) => {
+  (schema: ObjectSchema<object>) => async (req: Request, res: Response, next: NextFunction) => {
     try {
       await schema.validate({
         body: req.body,
@@ -18,6 +12,7 @@ export const validate =
       })
       return next()
     } catch (err) {
-      next(err)
+      if (err instanceof ValidationError) return next(createError(400, err.message))
+      return next(createError(400, 'validation failed'))
     }
   }

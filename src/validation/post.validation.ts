@@ -9,6 +9,10 @@ export const pagingQuerySchema: ObjectSchema<PagingQuery> = object({
   size: number().required().positive().integer(),
 })
 
+export const PagingValidationSchema = object({
+  query: pagingQuerySchema,
+})
+
 export const dateQuerySchema: ObjectSchema<DateRequest> = object({
   date: date()
     .optional()
